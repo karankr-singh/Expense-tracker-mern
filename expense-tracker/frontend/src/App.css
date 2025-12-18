@@ -1,0 +1,91 @@
+:root {
+  --bg: #f4f6f8;
+  --card: #ffffff;
+  --text: #333;
+  --primary: #2563eb;
+  --danger: #dc2626;
+}
+
+body.dark {
+  --bg: #0f172a;
+  --card: #1e293b;
+  --text: #f1f5f9;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  font-family: "Segoe UI", sans-serif;
+  color: var(--text);
+}
+
+.container {
+  max-width: 800px;
+  margin: 40px auto;
+  background: var(--card);
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.form {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.form input {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.form button {
+  grid-column: span 3;
+  padding: 10px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.expense {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr auto auto;
+  gap: 10px;
+  padding: 10px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.expense button {
+  border: none;
+  padding: 5px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.delete {
+  background: var(--danger);
+  color: white;
+}
+
+.edit {
+  background: #22c55e;
+  color: white;
+}
+
+.toggle {
+  cursor: pointer;
+  background: none;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  border-radius: 6px;
+}
