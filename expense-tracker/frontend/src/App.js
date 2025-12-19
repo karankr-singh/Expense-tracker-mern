@@ -13,8 +13,10 @@ import {
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-// ✅ Backend API URL from .env
-const API_URL = process.env.REACT_APP_API_URL;
+// ✅ FINAL API URL (env + fallback for Netlify)
+const API_URL =
+  process.env.REACT_APP_API_URL ||
+  "https://expense-tracker-mern-852p.onrender.com";
 
 function App() {
   const [expenses, setExpenses] = useState([]);
@@ -25,7 +27,7 @@ function App() {
   const [editId, setEditId] = useState(null);
   const [dark, setDark] = useState(false);
 
-  // Fetch expenses
+  // Fetch all expenses
   const fetchExpenses = async () => {
     const res = await axios.get(`${API_URL}/api/expense`);
     setExpenses(res.data);
@@ -45,7 +47,7 @@ function App() {
     fetchAnalytics();
   }, []);
 
-  // Dark mode
+  // Dark mode toggle
   useEffect(() => {
     document.body.className = dark ? "dark" : "";
   }, [dark]);
@@ -94,7 +96,7 @@ function App() {
     fetchAnalytics();
   };
 
-  // Chart data
+  // Pie chart data
   const pieData = {
     labels: analytics.map((a) => a._id),
     datasets: [
