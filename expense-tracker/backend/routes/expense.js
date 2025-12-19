@@ -50,14 +50,17 @@ router.put("/:id", async (req, res) => {
    DELETE EXPENSE
    DELETE /api/expense/:id
 ========================= */
-router.delete("/:id", async (req, res) => {
+const deleteExpense = async (id) => {
   try {
-    await Expense.findByIdAndDelete(req.params.id);
-    res.json({ message: "Expense deleted successfully" });
+    await axios.delete(`${API_URL}/api/expense/${id}`);
+    fetchExpenses();
+    fetchAnalytics();
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error("Delete failed:", err.response?.data || err.message);
+    alert("Failed to delete expense");
   }
-});
+};
+
 
 /* =========================
    ANALYTICS (CATEGORY TOTAL)

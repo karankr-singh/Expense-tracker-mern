@@ -13,7 +13,7 @@ import {
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-// ✅ FINAL API URL (env + fallback for Netlify)
+// ✅ API URL (env + fallback for Netlify)
 const API_URL =
   process.env.REACT_APP_API_URL ||
   "https://expense-tracker-mern-852p.onrender.com";
@@ -29,16 +29,24 @@ function App() {
 
   // Fetch all expenses
   const fetchExpenses = async () => {
-    const res = await axios.get(`${API_URL}/api/expense`);
-    setExpenses(res.data);
+    try {
+      const res = await axios.get(`${API_URL}/api/expense`);
+      setExpenses(res.data);
+    } catch (err) {
+      console.error("Fetch expenses failed:", err);
+    }
   };
 
   // Fetch analytics
   const fetchAnalytics = async () => {
-    const res = await axios.get(
-      `${API_URL}/api/expense/analytics/category`
-    );
-    setAnalytics(res.data);
+    try {
+      const res = await axios.get(
+        `${API_URL}/api/expense/analytics/category`
+      );
+      setAnalytics(res.data);
+    } catch (err) {
+      console.error("Fetch analytics failed:", err);
+    }
   };
 
   // Initial load
@@ -59,26 +67,31 @@ function App() {
       return;
     }
 
-    if (editId) {
-      await axios.put(`${API_URL}/api/expense/${editId}`, {
-        amount,
-        category,
-        description,
-      });
-      setEditId(null);
-    } else {
-      await axios.post(`${API_URL}/api/expense/add`, {
-        amount,
-        category,
-        description,
-      });
-    }
+    try {
+      if (editId) {
+        await axios.put(`${API_URL}/api/expense/${editId}`, {
+          amount,
+          category,
+          description,
+        });
+        setEditId(null);
+      } else {
+        await axios.post(`${API_URL}/api/expense/add`, {
+          amount,
+          category,
+          description,
+        });
+      }
 
-    setAmount("");
-    setCategory("");
-    setDescription("");
-    fetchExpenses();
-    fetchAnalytics();
+      setAmount("");
+      setCategory("");
+      setDescription("");
+      fetchExpenses();
+      fetchAnalytics();
+    } catch (err) {
+      console.error("Submit expense failed:", err);
+      alert("Failed to save expense");
+    }
   };
 
   // Edit expense
@@ -89,11 +102,22 @@ function App() {
     setDescription(e.description || "");
   };
 
-  // Delete expense
+  // ✅ FINAL FIXED DELETE FUNCTION
   const deleteExpense = async (id) => {
-    await axios.delete(`${API_URL}/api/expense/${id}`);
-    fetchExpenses();
-    fetchAnalytics();
+    try {
+      await axios.delete(`${API_URL}/api/expense/${id}`);
+
+      // Instantly update UI
+      setExpenses((prev) =>
+        prev.filter((expense) => expense._id !== id)
+      );
+
+      // Update analytics
+      fetchAnalytics();
+    } catch (err) {
+      console.error("Delete failed:", err.response?.data || err.message);
+      alert("Failed to delete expense");
+    }
   };
 
   // Pie chart data
