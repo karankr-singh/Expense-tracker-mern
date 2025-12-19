@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "./App.css";
 
-// chart imports
+// Chart imports
 import { Pie } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -13,6 +13,9 @@ import {
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
+// ✅ Backend API URL from .env
+const API_URL = process.env.REACT_APP_API_URL;
+
 function App() {
   const [expenses, setExpenses] = useState([]);
   const [analytics, setAnalytics] = useState([]);
@@ -22,44 +25,47 @@ function App() {
   const [editId, setEditId] = useState(null);
   const [dark, setDark] = useState(false);
 
-  // fetch all expenses
+  // Fetch expenses
   const fetchExpenses = async () => {
-    const res = await axios.get("http://localhost:5000/api/expense");
+    const res = await axios.get(`${API_URL}/api/expense`);
     setExpenses(res.data);
   };
 
-  // fetch analytics
+  // Fetch analytics
   const fetchAnalytics = async () => {
     const res = await axios.get(
-      "http://localhost:5000/api/expense/analytics/category"
+      `${API_URL}/api/expense/analytics/category`
     );
     setAnalytics(res.data);
   };
 
-  // initial load
+  // Initial load
   useEffect(() => {
     fetchExpenses();
     fetchAnalytics();
   }, []);
 
-  // dark mode toggle
+  // Dark mode
   useEffect(() => {
     document.body.className = dark ? "dark" : "";
   }, [dark]);
 
-  // add / update expense
+  // Add / Update expense
   const submitExpense = async () => {
-    if (!amount || !category) return alert("Amount & Category required");
+    if (!amount || !category) {
+      alert("Amount and Category are required");
+      return;
+    }
 
     if (editId) {
-      await axios.put(`http://localhost:5000/api/expense/${editId}`, {
+      await axios.put(`${API_URL}/api/expense/${editId}`, {
         amount,
         category,
         description,
       });
       setEditId(null);
     } else {
-      await axios.post("http://localhost:5000/api/expense/add", {
+      await axios.post(`${API_URL}/api/expense/add`, {
         amount,
         category,
         description,
@@ -73,22 +79,22 @@ function App() {
     fetchAnalytics();
   };
 
-  // edit expense
+  // Edit expense
   const editExpense = (e) => {
     setEditId(e._id);
     setAmount(e.amount);
     setCategory(e.category);
-    setDescription(e.description);
+    setDescription(e.description || "");
   };
 
-  // delete expense
+  // Delete expense
   const deleteExpense = async (id) => {
-    await axios.delete(`http://localhost:5000/api/expense/${id}`);
+    await axios.delete(`${API_URL}/api/expense/${id}`);
     fetchExpenses();
     fetchAnalytics();
   };
 
-  // pie chart data
+  // Chart data
   const pieData = {
     labels: analytics.map((a) => a._id),
     datasets: [
@@ -108,27 +114,29 @@ function App() {
 
   return (
     <div className="container">
+      {/* Header */}
       <div className="header">
         <h2>Expense Tracker</h2>
         <button className="toggle" onClick={() => setDark(!dark)}>
-          🌙
+          {dark ? "☀️" : "🌙"}
         </button>
       </div>
 
       {/* Form */}
       <div className="form">
         <input
+          type="number"
           placeholder="Amount"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
         />
         <input
-          placeholder="Category"
+          placeholder="Category (Food, Travel, etc.)"
           value={category}
           onChange={(e) => setCategory(e.target.value)}
         />
         <input
-          placeholder="Description"
+          placeholder="Description (optional)"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
@@ -146,13 +154,16 @@ function App() {
           <button className="edit" onClick={() => editExpense(e)}>
             ✏️
           </button>
-          <button className="delete" onClick={() => deleteExpense(e._id)}>
+          <button
+            className="delete"
+            onClick={() => deleteExpense(e._id)}
+          >
             ❌
           </button>
         </div>
       ))}
 
-      {/* Analytics Chart */}
+      {/* Analytics */}
       <h3 style={{ marginTop: "30px" }}>Expense Analytics</h3>
       {analytics.length > 0 ? (
         <Pie data={pieData} />
