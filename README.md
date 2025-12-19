@@ -1,135 +1,168 @@
-🚀 Expense Tracker – MERN Stack
+Expense Tracker – MERN Stack
 
-A full-stack Expense Tracker application built using the MERN stack (MongoDB, Express, React, Node.js).
-The app allows users to add, edit, delete expenses, view them in a clean UI, analyze spending category-wise using charts, and switch between light & dark mode.
+A full-stack **Expense Tracker application** built using the **MERN stack** that allows users to manage daily expenses, view category-wise analytics, and interact with a clean, responsive UI.
+The project is fully deployed with a **React frontend on Netlify** and a **Node.js backend on Render**, using **MongoDB Atlas** as the database.
 
-<img width="1331" height="519" alt="Screenshot 2025-12-18 225649" src="https://github.com/user-attachments/assets/a22d1c88-d4f1-4d54-a0b7-cf302d94d4e1" />
+---
+📸Screenshots
 
-<img width="1346" height="623" alt="Screenshot 2025-12-18 225725" src="https://github.com/user-attachments/assets/b54f2642-77df-4dd9-9666-a36b425aa3ca" />
+Dark Mode
+ <img width="1349" height="589" alt="Screenshot 2025-12-19 170723" src="https://github.com/user-attachments/assets/2be4a91a-1b10-4d42-9f7b-a3f903adfa94" />
 
-<img width="745" height="624" alt="Screenshot 2025-12-18 225750" src="https://github.com/user-attachments/assets/b5ecc8f1-2171-42e2-b2ef-fa80a23d1925" />
+Light Mode
+<img width="1350" height="595" alt="Screenshot 2025-12-19 170736" src="https://github.com/user-attachments/assets/ec055af0-f46c-4650-83d1-eba2359f4cb6" />
 
-✨ Features
+🚀 Live Demo
 
-➕ Add new expenses
-✏️ Edit exsting expenses
-❌ Delete expenses
-📊 Category-wise analytics (Pie Chart)
-🌙 Dark mode toggle
-📱 Clean and responsive UI
+* **Frontend (Netlify):**
+  👉 [https://expense-tracker-kr.netlify.app/](https://expense-tracker-kr.netlify.app/)
 
-🔗 RESTful API integration
+* **Backend API (Render):**
+  👉 [https://expense-tracker-mern-852p.onrender.com/](https://expense-tracker-mern-852p.onrender.com/)
 
-🛠 Tech Stack
+---
 
-Frontend
+## 🛠️ Tech Stack
 
-React.js
-Axios
-Chart.js
-CSS
+### Frontend
 
-Backend
+* React.js
+* Axios
+* Chart.js & react-chartjs-2
+* CSS (Dark Mode supported)
+* Netlify (Deployment)
 
-Node.js
-Express.js
-MongoDB
-Mongoose
-Tools & Deployment
-MongoDB Atlas
+### Backend
 
-Git & GitHub
+* Node.js
+* Express.js
+* MongoDB Atlas
+* Mongoose
+* dotenv
+* CORS
+* Render (Deployment)
 
-Render (Backend)
+---
 
-Netlify (Frontend)
+## ✨ Features
 
-📂 Project Structure
+* ➕ Add new expenses
+* ✏️ Edit existing expenses
+* ❌ Delete expenses
+* 📊 Category-wise expense analytics (Pie Chart)
+* 🌙 Dark mode toggle
+* 🌐 Fully deployed (Frontend + Backend)
+* 🔐 Environment variable support
+
+---
+
+## 📂 Project Structure
+
+```
 Expense-tracker-mern/
+│
 ├── backend/
 │   ├── models/
 │   │   └── Expense.js
 │   ├── routes/
 │   │   └── expense.js
 │   ├── server.js
-│   └── package.json
+│   ├── package.json
 │
 ├── frontend/
 │   ├── src/
 │   │   ├── App.js
 │   │   ├── App.css
 │   │   └── index.js
-│   └── package.json
+│   ├── package.json
 │
-├── .gitignore
 └── README.md
+```
 
-⚙️ How to Run Locally
-1️⃣ Clone the repository
+---
+
+## 🔗 API Endpoints
+
+### Expense Routes
+
+| Method | Endpoint                          | Description             |
+| ------ | --------------------------------- | ----------------------- |
+| GET    | `/api/expense`                    | Fetch all expenses      |
+| POST   | `/api/expense/add`                | Add new expense         |
+| PUT    | `/api/expense/:id`                | Update expense          |
+| DELETE | `/api/expense/:id`                | Delete expense          |
+| GET    | `/api/expense/analytics/category` | Category-wise analytics |
+
+---
+
+## 🧑‍💻 Run Locally
+
+### 1️⃣ Clone Repository
+
+```bash
 git clone https://github.com/karankr-singh/Expense-tracker-mern.git
 cd Expense-tracker-mern
+```
 
-2️⃣ Setup Backend
+---
+
+### 2️⃣ Start Backend
+
+```bash
 cd backend
 npm install
-
-
-Create a .env file inside backend/:
-
-MONGO_URI=your_mongodb_connection_string
-PORT=5000
-
-
-Start backend server:
-
 node server.js
+```
 
-3️⃣ Setup Frontend
-cd ../frontend
+Backend runs on:
+👉 `http://localhost:5000`
+
+---
+
+### 3️⃣ Start Frontend
+
+```bash
+cd frontend
 npm install
 npm start
+```
 
+Frontend runs on:
+👉 `http://localhost:3000`
 
-Frontend will run at:
+---
 
-http://localhost:3000
+## 🌍 Deployment
 
-🔗 API Endpoints
-Method	Endpoint	Description
-GET	/api/expense	Get all expenses
-POST	/api/expense/add	Add a new expense
-PUT	/api/expense/:id	Update an expense
-DELETE	/api/expense/:id	Delete an expense
-GET	/api/expense/analytics/category	Category-wise analytics
-📊 Analytics
+* **Backend:** Deployed on **Render**
+* **Frontend:** Deployed on **Netlify**
+* **Database:** MongoDB Atlas
 
-Uses MongoDB aggregation pipeline
+---
 
-Displays category-wise totals in a Pie Chart
+## 🧠 Key Learnings
 
-Updates dynamically on add/edit/delete
+* Full CRUD operations in MERN stack
+* Handling environment variables in production
+* Fixing deployment issues (CORS, base directory, API paths)
+* Real-world debugging of DELETE API and UI state updates
+* Connecting MongoDB Atlas with deployed backend
 
-🧠 Learning Outcomes
+---
 
-Built full-stack MERN application
+## 📌 Future Improvements
 
-Implemented REST APIs
+* User authentication (Login / Signup)
+* Monthly & yearly analytics
+* Export expenses to CSV
+* Category dropdown with validation
+* Mobile-first UI enhancements
 
-Used MongoDB aggregation for analytics
+---
 
-Integrated charts in React
+## 👨‍💻 Author
 
-Managed state and side effects using React hooks
+**Karan Kumar Singh**
 
-Practiced Git & GitHub workflow
+* GitHub: [https://github.com/karankr-singh](https://github.com/karankr-singh)
 
-Deployed full-stack app on cloud platforms
-
-📸 Screenshots
-
-(Optional but recommended – add UI screenshots here)
-
-🧑‍💻 Author
-
-Karan Kumar Singh
-GitHub: @karankr-singh
